@@ -1,4 +1,4 @@
-🛡️ Arquitectura segura basada en Kubernetes para servicios web
+**Arquitectura segura basada en Kubernetes para servicios web**
 
 Este repositorio contiene el material desarrollado para el Trabajo Fin de Máster titulado:
 
@@ -6,7 +6,7 @@ Este repositorio contiene el material desarrollado para el Trabajo Fin de Máste
 
 El proyecto tiene como objetivo diseñar, desplegar y evaluar una arquitectura Kubernetes segura, aplicando buenas prácticas de segmentación, control de acceso, protección de credenciales y validación experimental de las medidas de seguridad implementadas.
 
-📌 Descripción general
+**Descripción general**
 
 La arquitectura propuesta despliega varios servicios web en un clúster Kubernetes, organizados mediante namespaces independientes y protegidos mediante controles de seguridad en distintas capas:
 
@@ -24,7 +24,7 @@ Restricciones de recursos para mitigar riesgos de denegación de servicio
 
 El entorno ha sido desplegado y validado en un clúster local basado en Minikube sobre WSL, aunque el diseño es extrapolable a otros entornos Kubernetes.
 
-🧱 Arquitectura del sistema
+**Arquitectura del sistema**
 
 La solución incluye los siguientes componentes principales:
 
@@ -44,7 +44,7 @@ Linkerd: cifrado mTLS y observabilidad del tráfico interno
 
 Cada componente se despliega en su propio namespace, con flujos de comunicación explícitamente definidos.
 
-🔐 Seguridad
+**Seguridad**
 
 El diseño sigue un enfoque de defensa en profundidad y security by design, alineado con:
 
@@ -62,23 +62,7 @@ Protección efectiva de secretos
 
 Estabilidad del sistema bajo carga
 
-📂 Estructura del repositorio
-.
-├── kubernetes/
-│   ├── namespaces/              # Definición de namespaces
-│   ├── roles/                   # RBAC: Roles, RoleBindings y ServiceAccounts
-│   ├── politicasRed/            # NetworkPolicies (Calico)
-│   ├── mysqlDeployment/         # Despliegue de MySQL y PVCs
-│   ├── appDeployment/           # Aplicación PHP
-│   ├── wordpressDeployment/     # WordPress
-│   ├── phpmyadminDeployment/    # phpMyAdmin
-│   └── ingress/                 # Reglas de Ingress
-├── imagenApp/                   # Código y Dockerfile de la aplicación PHP
-├── backups/                     # Scripts y manifiestos de respaldo
-├── certificados/                # Certificados utilizados en el entorno
-└── README.md
-
-🚀 Despliegue del entorno
+**Despliegue del entorno**
 
 Para reproducir el entorno es necesario disponer de:
 
@@ -104,7 +88,7 @@ kubectl apply -f kubernetes/ingress/
 
 Tras el despliegue, se recomienda verificar el correcto funcionamiento de los servicios y aplicar las comprobaciones descritas en la memoria del proyecto.
 
-🧪 Validación y experimentos
+**Validación y experimentos**
 
 El proyecto incluye una fase de evaluación en la que se realizan distintos experimentos orientados a validar las medidas de seguridad implementadas, como:
 
@@ -118,12 +102,12 @@ Pruebas de carga para evaluar la resiliencia del sistema
 
 Los detalles completos de estos experimentos se encuentran documentados en la memoria del TFM.
 
-📄 Licencia
+**Licencia**
 
 Este proyecto se distribuye con fines académicos y educativos.
 El uso del código queda sujeto a las licencias de las herramientas y tecnologías utilizadas.
 
-👤 Autor
+**Autor**
 
 Antonio López Rubias
 Trabajo Fin de Máster – Ciberseguridad
