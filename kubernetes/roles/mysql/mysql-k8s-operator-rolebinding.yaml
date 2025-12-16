@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mysql-operator-binding
+  namespace: mysql-namespace
+subjects:
+  - kind: User
+    name: "mysql-operator-user" 
+roleRef:
+  kind: Role
+  name: mysql-operator
+  apiGroup: rbac.authorization.k8s.io

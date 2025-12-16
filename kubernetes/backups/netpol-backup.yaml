@@ -1,0 +1,237 @@
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2025-09-15T13:06:40Z"
+    generation: 1
+    name: allow-apiserver
+    namespace: calico-apiserver
+    ownerReferences:
+    - apiVersion: operator.tigera.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: APIServer
+      name: default
+      uid: 7145e412-4ca8-49bd-9fca-50678edf3bea
+    resourceVersion: "226163"
+    uid: ac43e22b-800a-4bc2-87de-bf39551952f9
+  spec:
+    ingress:
+    - ports:
+      - port: 5443
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        apiserver: "true"
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2025-09-15T13:17:44Z"
+    generation: 1
+    name: goldmane
+    namespace: calico-system
+    ownerReferences:
+    - apiVersion: operator.tigera.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Goldmane
+      name: default
+      uid: 648e2c24-ae26-44cc-82eb-c5464eedc442
+    resourceVersion: "227489"
+    uid: 1f46a05e-39bc-40aa-884b-7732ba6b6b12
+  spec:
+    ingress:
+    - ports:
+      - port: 7443
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app.kubernetes.io/name: goldmane
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    creationTimestamp: "2025-09-15T13:17:44Z"
+    generation: 1
+    name: whisker
+    namespace: calico-system
+    ownerReferences:
+    - apiVersion: operator.tigera.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Whisker
+      name: default
+      uid: 18b79b50-4ae6-4b65-83c1-380083d234e6
+    resourceVersion: "227499"
+    uid: c6ed0573-59aa-4838-a88c-1f628a10440c
+  spec:
+    egress:
+    - ports:
+      - port: 7443
+        protocol: TCP
+      to:
+      - podSelector:
+          matchLabels:
+            app.kubernetes.io/name: goldmane
+    - ports:
+      - port: 53
+        protocol: TCP
+      - port: 53
+        protocol: UDP
+      to:
+      - namespaceSelector:
+          matchLabels:
+            projectcalico.org/name: kube-system
+        podSelector:
+          matchLabels:
+            k8s-app: kube-dns
+    podSelector:
+      matchLabels:
+        app.kubernetes.io/name: whisker
+    policyTypes:
+    - Ingress
+    - Egress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"allow-wp-phpmyadmin-to-mysql","namespace":"mysql-namespace"},"spec":{"ingress":[{"from":[{"namespaceSelector":{"matchLabels":{"kubernetes.io/metadata.name":"wordpress-namespace"}}},{"namespaceSelector":{"matchLabels":{"kubernetes.io/metadata.name":"phpmyadmin-namespace"}}}],"ports":[{"port":3306,"protocol":"TCP"}]}],"podSelector":{"matchLabels":{"app":"my-db"}},"policyTypes":["Ingress"]}}
+    creationTimestamp: "2025-09-15T12:25:22Z"
+    generation: 1
+    name: allow-wp-phpmyadmin-to-mysql
+    namespace: mysql-namespace
+    resourceVersion: "222610"
+    uid: 992265e0-2655-4a59-bee2-f7f0f3456e84
+  spec:
+    ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: wordpress-namespace
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: phpmyadmin-namespace
+      ports:
+      - port: 3306
+        protocol: TCP
+    podSelector:
+      matchLabels:
+        app: my-db
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"default-deny-all","namespace":"mysql-namespace"},"spec":{"podSelector":{"matchLabels":{"app":"my-db"}},"policyTypes":["Ingress"]}}
+    creationTimestamp: "2025-07-27T16:44:24Z"
+    generation: 1
+    name: default-deny-all
+    namespace: mysql-namespace
+    resourceVersion: "178118"
+    uid: 375da4b5-106a-40e5-bb3b-967e1dacc59d
+  spec:
+    podSelector:
+      matchLabels:
+        app: my-db
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"default-deny-ingress","namespace":"mysql-namespace"},"spec":{"podSelector":{},"policyTypes":["Ingress"]}}
+    creationTimestamp: "2025-09-15T12:04:35Z"
+    generation: 1
+    name: default-deny-ingress
+    namespace: mysql-namespace
+    resourceVersion: "220910"
+    uid: 42e9f98f-9721-46fe-ac15-2f94a6da3052
+  spec:
+    podSelector: {}
+    policyTypes:
+    - Ingress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"allow-dns-egress","namespace":"phpmyadmin-namespace"},"spec":{"egress":[{"ports":[{"port":53,"protocol":"UDP"},{"port":53,"protocol":"TCP"}],"to":[{"namespaceSelector":{"matchLabels":{"kubernetes.io/metadata.name":"kube-system"}},"podSelector":{"matchLabels":{"k8s-app":"kube-dns"}}}]}],"podSelector":{},"policyTypes":["Egress"]}}
+    creationTimestamp: "2025-09-15T11:33:28Z"
+    generation: 1
+    name: allow-dns-egress
+    namespace: phpmyadmin-namespace
+    resourceVersion: "218401"
+    uid: 2ce2479f-5f25-4fa1-8db1-80f13c90dc38
+  spec:
+    egress:
+    - ports:
+      - port: 53
+        protocol: UDP
+      - port: 53
+        protocol: TCP
+      to:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system
+        podSelector:
+          matchLabels:
+            k8s-app: kube-dns
+    podSelector: {}
+    policyTypes:
+    - Egress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"allow-mysql-egress","namespace":"phpmyadmin-namespace"},"spec":{"egress":[{"ports":[{"port":3306,"protocol":"TCP"}],"to":[{"namespaceSelector":{"matchLabels":{"kubernetes.io/metadata.name":"mysql-namespace"}},"podSelector":{"matchLabels":{"app":"my-db"}}}]}],"podSelector":{"matchLabels":{"app":"phpmyadmin"}},"policyTypes":["Egress"]}}
+    creationTimestamp: "2025-09-15T11:33:49Z"
+    generation: 1
+    name: allow-mysql-egress
+    namespace: phpmyadmin-namespace
+    resourceVersion: "218430"
+    uid: f0b8ad22-2f62-45f2-ac8b-774e87a6d28c
+  spec:
+    egress:
+    - ports:
+      - port: 3306
+        protocol: TCP
+      to:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: mysql-namespace
+        podSelector:
+          matchLabels:
+            app: my-db
+    podSelector:
+      matchLabels:
+        app: phpmyadmin
+    policyTypes:
+    - Egress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"default-deny-egress","namespace":"phpmyadmin-namespace"},"spec":{"egress":[],"podSelector":{},"policyTypes":["Egress"]}}
+    creationTimestamp: "2025-09-15T11:33:13Z"
+    generation: 1
+    name: default-deny-egress
+    namespace: phpmyadmin-namespace
+    resourceVersion: "218380"
+    uid: 10d8e288-de19-410d-af8b-95f48f1c7584
+  spec:
+    podSelector: {}
+    policyTypes:
+    - Egress
+kind: List
+metadata:
+  resourceVersion: ""

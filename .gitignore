@@ -1,0 +1,104 @@
+############################
+# Sistema operativo
+############################
+.DS_Store
+Thumbs.db
+desktop.ini
+
+############################
+# VS Code
+############################
+.vscode/
+!.vscode/extensions.json
+
+############################
+# Logs y archivos temporales
+############################
+*.log
+*.tmp
+*.swp
+*.bak
+
+############################
+# Kubernetes
+############################
+# Kubeconfig y contextos locales
+.kube/
+kubeconfig*
+config
+
+# Archivos generados por kubectl
+*.json
+
+############################
+# Minikube
+############################
+.minikube/
+minikube.log
+
+############################
+# CNI / Networking
+############################
+# Calico (estado local, nunca manifests)
+calicoctl.cfg
+
+############################
+# Service Mesh
+############################
+# Linkerd (config local / profiles)
+linkerd-profile*
+linkerd-values-local.yaml
+
+############################
+# Helm
+############################
+charts/**/charts/
+charts/**/Chart.lock
+charts/**/values.local.yaml
+*.tgz
+
+############################
+# Docker / Contenedores
+############################
+**/node_modules/
+.env
+.env.local
+
+############################
+# Scripts Python / Bash
+############################
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+############################
+# Memoria TFM (Word)
+############################
+~$*.docx
+~$*.doc
+*.docx#
+*.doc#
+
+############################
+# PDFs generados (opcional)
+############################
+*.pdf
+
+############################
+# Clusters locales adicionales
+############################
+.kind/
+.k3d/
+
+############################
+# Secrets y credenciales (CRÍTICO)
+############################
+*secret*
+*secrets*
+*.key
+*.pem
+*.crt
+*.p12
+*.env.*

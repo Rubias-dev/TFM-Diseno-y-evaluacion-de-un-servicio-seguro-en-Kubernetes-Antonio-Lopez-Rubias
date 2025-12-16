@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-mysql-egress
+  namespace: phpmyadmin-namespace
+spec:
+  podSelector:
+    matchLabels:
+      app: phpmyadmin
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: mysql-namespace
+          podSelector:
+            matchLabels:
+              app: my-db
+      ports:
+        - protocol: TCP
+          port: 3306

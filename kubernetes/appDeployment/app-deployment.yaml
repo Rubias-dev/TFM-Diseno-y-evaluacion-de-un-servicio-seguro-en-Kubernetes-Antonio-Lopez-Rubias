@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miapp-php
+  namespace: app
+  labels:
+    app: miapp-php
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: miapp-php
+  template:
+    metadata:
+      labels:
+        app: miapp-php
+      annotations:
+        linkerd.io/inject: enabled    # inyectar Linkerd
+    spec:
+      serviceAccountName: sa-app
+      containers:
+      - name: miapp-php
+        image: miapp-php:latest
+        imagePullPolicy: IfNotPresent 
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "150m"
+            memory: "256Mi"
+          limits:
+            cpu: "400m"
+            memory: "512Mi"
+        env:
+        - name: DB_HOST
+          value: "mysql.mysql-namespace.svc.cluster.local"
+        - name: DB_NAME
+          value: "tfm"
+        - name: DB_USER
+          value: "antonio"
+        - name: DB_PASSWORD
+          value: "12345678"

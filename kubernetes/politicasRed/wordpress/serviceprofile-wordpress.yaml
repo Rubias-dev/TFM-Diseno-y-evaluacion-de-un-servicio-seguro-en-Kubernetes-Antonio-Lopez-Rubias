@@ -1,0 +1,13 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: wploadbalancer.wordpress-namespace.svc.cluster.local
+  namespace: wordpress-namespace
+spec:
+  routes:
+    - name: root
+      condition:
+        method: GET
+        pathRegex: "/"
+      isRetryable: true
+      timeout: 30s

@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-egress-to-linkerd
+  namespace: phpmyadmin-namespace
+spec:
+  podSelector: {}          # todos los pods del ns (incluye el sidecar)
+  policyTypes: ["Egress"]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: linkerd
+      # sin ports: dejamos que el proxy llegue a destination/identity/policy

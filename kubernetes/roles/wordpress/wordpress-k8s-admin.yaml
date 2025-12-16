@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: wordpress-namespace
+  name: wordpress-k8s-admin
+rules:
+  - apiGroups: ["", "apps", "networking.k8s.io"]
+    resources: ["pods", "deployments", "services", "configmaps", "secrets", "persistentvolumeclaims", "ingresses"]
+    verbs: ["get", "list", "create", "update", "delete", "watch"]

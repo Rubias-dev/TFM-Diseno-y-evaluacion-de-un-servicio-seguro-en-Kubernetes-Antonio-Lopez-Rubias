@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wploadbalancer
+  namespace: wordpress-namespace
+spec:
+  type: ClusterIP
+  selector:  
+    app: my-wordpress
+  ports:
+    - name: "http"
+      port: 80
+      targetPort: 80
